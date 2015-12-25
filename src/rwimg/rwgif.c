@@ -54,7 +54,11 @@ open_gif_file (const char *filename, int *width, int *height)
     
     assert(data != 0);
     
+#if GIFLIB_MAJOR >= 5
+    data->file = DGifOpenFileName(filename, NULL);
+#else
     data->file = DGifOpenFileName(filename);
+#endif
     
     assert(data->file !=0);
         
@@ -137,7 +141,11 @@ open_gif_file (const char *filename, int *width, int *height)
     }
     free(buffer);
     
+#if GIFLIB_MAJOR == 5 && GIFLIB_MINOR >= 1 || GIFLIB_MAJOR > 5
+    assert(DGifCloseFile(data->file, NULL) == GIF_OK);
+#else
     assert(DGifCloseFile(data->file) == GIF_OK);
+#endif
     
     return data;
 }

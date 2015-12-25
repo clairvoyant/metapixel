@@ -78,6 +78,10 @@
 #ifndef _
 /* This is for other GNU distributions with internationalized messages.
    When compiling libc, the _ macro is predefined.  */
+#include <string.h>
+#include <sys/types.h>
+#include <sys/unistd.h>
+
 #ifdef HAVE_LIBINTL_H
 # include <libintl.h>
 # define _(msgid)	gettext (msgid)
@@ -361,7 +365,7 @@ _getopt_initialize (optstring)
 
   return optstring;
 }
-
+
 /* Scan elements of ARGV (whose length is ARGC) for option characters
    given in OPTSTRING.
 
@@ -427,7 +431,8 @@ _getopt_internal (argc, argv, optstring, longopts, longind, long_only)
      int *longind;
      int long_only;
 {
-  optarg = NULL;
+  optarg  = NULL;
+  longind = NULL;
 
   if (optind == 0)
     {
@@ -600,17 +605,19 @@ _getopt_internal (argc, argv, optstring, longopts, longind, long_only)
 		optarg = nameend + 1;
 	      else
 		{
-		  if (opterr)
-		    if (argv[optind - 1][1] == '-')
+		  if (opterr) {
+		    if (argv[optind - 1][1] == '-') {
 		      /* --option */
 		      fprintf (stderr,
 			_("%s: option `--%s' doesn't allow an argument\n"),
 			       argv[0], pfound->name);
-		    else
+            } else {
 		      /* +option or -option */
 		      fprintf (stderr,
 			_("%s: option `%c%s' doesn't allow an argument\n"),
 			       argv[0], argv[optind - 1][0], pfound->name);
+            }
+          }
 
 		  nextchar += strlen (nextchar);
 
