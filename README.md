@@ -4,6 +4,7 @@
 Clone of the metapixel code at https://www.complang.tuwien.ac.at/schani/metapixel/
 
 This repository is intended to apply changes found in diferent sources to the metapixel source code. 
+The main change is related to the compatibility with libpng 1.5. 
 
 
 
