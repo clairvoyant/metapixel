@@ -90,6 +90,11 @@
 #endif
 #endif
 
+#if defined(BSD)
+#  include <sys/types.h>
+#  include <sys/unistd.h>
+#endif
+
 /* This version of `getopt' appears to the caller like standard Unix `getopt'
    but it behaves differently for the user, since it allows the user
    to intersperse the options with the other arguments.
